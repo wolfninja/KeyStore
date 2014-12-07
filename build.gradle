@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+
+version = '1.0.0-SNAPSHOT'
+group 'com.wolfninja.keystore'
+ext.packaging = 'jar'
+
+repositories {
+	mavenCentral()
+}
+
+test.useTestNG()
+
+dependencies {
+	compile 'com.google.guava:guava:18.0'
+	compile 'com.google.code.findbugs:jsr305:3.0.0'
+	testCompile 'org.testng:testng:6.8.8'
+	testCompile 'org.easymock:easymock:3.3'
+	testCompile 'org.powermock:powermock-module-testng:1.6.0'
+	testCompile 'org.powermock:powermock-api-easymock:1.6.0'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives sourcesJar
+	archives javadocJar
+}
