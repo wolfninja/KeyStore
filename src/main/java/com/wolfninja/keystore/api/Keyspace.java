@@ -15,9 +15,9 @@ public interface Keyspace {
 	 * Store value only if key has no value
 	 * 
 	 * @param key
-	 *            String key
+	 *            String key, not null
 	 * @param value
-	 *            String value
+	 *            String value, not null
 	 * @return true if value added, false otherwise
 	 * @since 1.0
 	 */
@@ -63,6 +63,16 @@ public interface Keyspace {
 	@Nonnull
 	public Optional<KeyValue> get(@Nonnull final String key);
 
+	/**
+	 * Check if key exists
+	 * 
+	 * @param key String key, not null
+	 * @return true if key exists, false otherwise
+	 * @since 1.0
+	 */
+	@Nonnull
+	public boolean exists(@Nonnull final String key);
+	
 	/**
 	 * Replace value("Store data only if key exists already")
 	 * <p>

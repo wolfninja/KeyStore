@@ -1,15 +1,20 @@
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0'
 group 'com.wolfninja.keystore'
 ext.packaging = 'jar'
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 
-test.useTestNG()
+def isDevBuild
+def isCiBuild
+def isReleaseBuild
 
 dependencies {
 	compile 'com.google.guava:guava:18.0'
@@ -30,7 +35,35 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	from sourceSets.main.allSource
 }
 
+task testsJar(type: Jar, dependsOn: testClasses) {
+	classifier = 'tests'
+	from sourceSets.test.output
+}
+
+test.useTestNG()
+
 artifacts {
-	archives sourcesJar
+	archives jar
+
 	archives javadocJar
+	archives sourcesJar
+	archives testsJar
+}
+
+if(hasProperty("release")) {
+	isReleaseBuild = true
+} else if (hasProperty("ci")) {
+	isCiBuild = true
+	version += "-SNAPSHOT"
+} else {
+	isDevBuild = true
+	version += "-SNAPSHOT"
+}
+
+uploadArchives {
+	repositories {
+		if(isDevBuild) {
+			mavenLocal()
+		}
+	}
 }

@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Tests for {@link KeyValueStore}
+ * Tests for {@code KeyValueStore}
  */
 @Test
 public class KeyValueStoreTest {
