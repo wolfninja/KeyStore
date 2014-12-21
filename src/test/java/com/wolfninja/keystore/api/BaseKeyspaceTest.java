@@ -80,6 +80,33 @@ public abstract class BaseKeyspaceTest {
 	}
 
 	@Test
+	public void deletesNewKeyShouldReturnFalse() {
+		final String key = genRandKey();
+		Assert.assertFalse(keyspace.deletes(key, 0L), "expecting false");
+	}
+
+	@Test
+	public void deletesShouldReturnFalseOnMismatch() {
+		final String key = genRandKey();
+
+		// Set initial value
+		final boolean resultSetting = keyspace.set(key, "mine!");
+		Assert.assertTrue(resultSetting);
+
+		// Get existing value
+		final Optional<KeyValue> insertedValue = keyspace.gets(key);
+		Assert.assertTrue(insertedValue.isPresent());
+
+		// Should return false due to mismatch
+		final boolean actual = keyspace.deletes(key, insertedValue.get().getVersion() - 1L);
+		Assert.assertFalse(actual);
+		final Optional<KeyValue> actualVal = keyspace.gets(key);
+		// Actual value should be unchanged
+		Assert.assertTrue(actualVal.isPresent());
+		Assert.assertEquals("mine!", actualVal.get().getValue());
+	}
+
+	@Test
 	public void deletingNewKeyShouldReturnFalse() {
 		final String key = genRandKey();
 		Assert.assertFalse(keyspace.delete(key), "expecting false");
@@ -102,7 +129,7 @@ public abstract class BaseKeyspaceTest {
 	private String genRandKey() {
 		return UUID.randomUUID().toString();
 	}
-	
+
 	@Test
 	public void getShouldReturnAbsentIfDeleted() {
 		final String key = genRandKey();
@@ -115,6 +142,22 @@ public abstract class BaseKeyspaceTest {
 	}
 
 	@Test
+	public void getShouldReturnAbsentIfNotPresent() {
+		final Optional<String> actual = keyspace.get(genRandKey());
+		Assert.assertFalse(actual.isPresent());
+	}
+
+	@Test
+	public void getShouldReturnIfPresent() {
+		final String key = genRandKey();
+		keyspace.add(key, "my awesome value");
+
+		final Optional<String> actual = keyspace.get(key);
+		Assert.assertTrue(actual.isPresent());
+		Assert.assertEquals(actual.get(), "my awesome value");
+	}
+
+	@Test
 	public void getsShouldReturnAbsentIfDeleted() {
 		final String key = genRandKey();
 		keyspace.add(key, "something awesome");
@@ -123,12 +166,6 @@ public abstract class BaseKeyspaceTest {
 		Assert.assertFalse(keyspace.exists(key));
 		Assert.assertFalse(keyspace.gets(key).isPresent());
 
-	}
-	
-	@Test
-	public void getShouldReturnAbsentIfNotPresent() {
-		final Optional<String> actual = keyspace.get(genRandKey());
-		Assert.assertFalse(actual.isPresent());
 	}
 
 	@Test
@@ -150,16 +187,6 @@ public abstract class BaseKeyspaceTest {
 		final Optional<KeyValue> second = keyspace.gets(key);
 		final long secondVersion = second.get().getVersion();
 		Assert.assertNotEquals(firstVersion, secondVersion);
-	}
-	
-	@Test
-	public void getShouldReturnIfPresent() {
-		final String key = genRandKey();
-		keyspace.add(key, "my awesome value");
-
-		final Optional<String> actual = keyspace.get(key);
-		Assert.assertTrue(actual.isPresent());
-		Assert.assertEquals(actual.get(), "my awesome value");
 	}
 
 	@Test
@@ -233,6 +260,26 @@ public abstract class BaseKeyspaceTest {
 	}
 
 	@Test
+	public void shouldBeAbleToDeletesWithVersion() {
+		final String key = genRandKey();
+
+		// Set initial value
+		final boolean resultSetting = keyspace.set(key, "mine!");
+		Assert.assertTrue(resultSetting);
+
+		// Get existing value
+		final Optional<KeyValue> insertedValue = keyspace.gets(key);
+		Assert.assertTrue(insertedValue.isPresent());
+
+		// Try delete
+		final boolean actual = keyspace.deletes(key, insertedValue.get().getVersion());
+		Assert.assertTrue(actual);
+
+		// Should be gone
+		Assert.assertFalse(keyspace.exists(key));
+	}
+
+	@Test
 	public void shouldBeAbleToReplaceExistingKey() {
 		final String key = genRandKey();
 		keyspace.add(key, "blah");
@@ -275,7 +322,19 @@ public abstract class BaseKeyspaceTest {
 	public void shouldNotBeAbleToCheckNullKeyExists() {
 		Assert.assertFalse(keyspace.exists(null));
 	}
-	
+
+	@Test(expectedExceptions = NullPointerException.class)
+	public void shouldNotBeAbleToDeleteNullKey() {
+		keyspace.delete(null);
+		Assert.fail("Should have thrown exception!");
+	}
+
+	@Test(expectedExceptions = NullPointerException.class)
+	public void shouldNotBeAbleToDeletesNullKey() {
+		keyspace.deletes(null, 43L);
+		Assert.fail("Should have thrown exception!");
+	}
+
 	@Test(expectedExceptions = NullPointerException.class)
 	public void shouldNotBeAbleToGetNullKey() {
 		keyspace.get(null);
@@ -307,7 +366,7 @@ public abstract class BaseKeyspaceTest {
 				{ null, null }, //
 		};
 	}
-	
+
 	@Test(dataProvider = "shouldNotBeAbleToSetWithNullsData", expectedExceptions = NullPointerException.class)
 	public void shouldNotBeAbleToSetWithNulls(final String key, final String value) {
 		keyspace.set(key, value);

@@ -53,6 +53,19 @@ public interface Keyspace {
 	public boolean delete(@Nonnull final String key);
 
 	/**
+	 * Check and Delete value for a given key
+	 * 
+	 * @param key
+	 *            String key, not null
+	 * @param version
+	 *            long version of value
+	 * @return true if key deleted, false otherwise
+	 * @since 1.0
+	 */
+	@Nonnull
+	public boolean deletes(@Nonnull final String key, final long version);
+
+	/**
 	 * Check if key exists
 	 * 
 	 * @param key
