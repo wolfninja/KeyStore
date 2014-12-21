@@ -35,13 +35,13 @@ public abstract class BaseKeyspaceTest {
 		Assert.assertTrue(resultSetting);
 
 		// Get existing value
-		final Optional<KeyValue> insertedValue = keyspace.get(key);
+		final Optional<KeyValue> insertedValue = keyspace.gets(key);
 		Assert.assertTrue(insertedValue.isPresent());
 
 		// Check and set should return true
 		final boolean actual = keyspace.checkAndSet(key, "abcd", insertedValue.get().getVersion());
 		Assert.assertTrue(actual);
-		final Optional<KeyValue> actualVal = keyspace.get(key);
+		final Optional<KeyValue> actualVal = keyspace.gets(key);
 		// Actual value should be set
 		Assert.assertTrue(actualVal.isPresent());
 		Assert.assertEquals("abcd", actualVal.get().getValue());
@@ -56,13 +56,13 @@ public abstract class BaseKeyspaceTest {
 		Assert.assertTrue(resultSetting);
 
 		// Get existing value
-		final Optional<KeyValue> insertedValue = keyspace.get(key);
+		final Optional<KeyValue> insertedValue = keyspace.gets(key);
 		Assert.assertTrue(insertedValue.isPresent());
 
 		// Check and set should return false
 		final boolean actual = keyspace.checkAndSet(key, "abcd", insertedValue.get().getVersion() - 1L);
 		Assert.assertFalse(actual);
-		final Optional<KeyValue> actualVal = keyspace.get(key);
+		final Optional<KeyValue> actualVal = keyspace.gets(key);
 		// Actual value should be unchanged
 		Assert.assertTrue(actualVal.isPresent());
 		Assert.assertEquals("mine!", actualVal.get().getValue());
@@ -102,11 +102,11 @@ public abstract class BaseKeyspaceTest {
 	private String genRandKey() {
 		return UUID.randomUUID().toString();
 	}
-
+	
 	@Test
 	public void getShouldReturnAbsentIfDeleted() {
 		final String key = genRandKey();
-		keyspace.add(key, "something awesome");
+		keyspace.add(key, "something awesomer");
 		Assert.assertTrue(keyspace.exists(key));
 		keyspace.delete(key);
 		Assert.assertFalse(keyspace.exists(key));
@@ -115,32 +115,59 @@ public abstract class BaseKeyspaceTest {
 	}
 
 	@Test
+	public void getsShouldReturnAbsentIfDeleted() {
+		final String key = genRandKey();
+		keyspace.add(key, "something awesome");
+		Assert.assertTrue(keyspace.exists(key));
+		keyspace.delete(key);
+		Assert.assertFalse(keyspace.exists(key));
+		Assert.assertFalse(keyspace.gets(key).isPresent());
+
+	}
+	
+	@Test
 	public void getShouldReturnAbsentIfNotPresent() {
-		final Optional<KeyValue> actual = keyspace.get(genRandKey());
+		final Optional<String> actual = keyspace.get(genRandKey());
 		Assert.assertFalse(actual.isPresent());
 	}
 
 	@Test
-	public void getShouldReturnDifferentVersionsIfChanged() {
+	public void getsShouldReturnAbsentIfNotPresent() {
+		final Optional<KeyValue> actual = keyspace.gets(genRandKey());
+		Assert.assertFalse(actual.isPresent());
+	}
+
+	@Test
+	public void getsShouldReturnDifferentVersionsIfChanged() {
 		final String key = genRandKey();
 		keyspace.add(key, "something awesome");
 
-		final Optional<KeyValue> first = keyspace.get(key);
+		final Optional<KeyValue> first = keyspace.gets(key);
 		final long firstVersion = first.get().getVersion();
 
 		// Store something else
 		keyspace.replace(key, "something else");
-		final Optional<KeyValue> second = keyspace.get(key);
+		final Optional<KeyValue> second = keyspace.gets(key);
 		final long secondVersion = second.get().getVersion();
 		Assert.assertNotEquals(firstVersion, secondVersion);
 	}
-
+	
 	@Test
 	public void getShouldReturnIfPresent() {
 		final String key = genRandKey();
 		keyspace.add(key, "my awesome value");
 
-		final Optional<KeyValue> actual = keyspace.get(key);
+		final Optional<String> actual = keyspace.get(key);
+		Assert.assertTrue(actual.isPresent());
+		Assert.assertEquals(actual.get(), "my awesome value");
+	}
+
+	@Test
+	public void getsShouldReturnIfPresent() {
+		final String key = genRandKey();
+		keyspace.add(key, "my awesome value");
+
+		final Optional<KeyValue> actual = keyspace.gets(key);
 		Assert.assertTrue(actual.isPresent());
 		KeyValue actualValue = actual.get();
 		Assert.assertEquals(actualValue.getKey(), key);
@@ -153,7 +180,7 @@ public abstract class BaseKeyspaceTest {
 		final String value = "woot";
 		keyspace.add(key, value);
 		Assert.assertFalse(keyspace.replace(key, value));
-		Assert.assertEquals(keyspace.get(key).get().getValue(), value);
+		Assert.assertEquals(keyspace.get(key).get(), value);
 	}
 
 	@Test
@@ -165,14 +192,14 @@ public abstract class BaseKeyspaceTest {
 			final String value = "woot";
 			final boolean actual = keyspace.set(key, value);
 			Assert.assertTrue(actual);
-			Assert.assertEquals(keyspace.get(key).get().getValue(), value);
+			Assert.assertEquals(keyspace.get(key).get(), value);
 		}
 		// Add to key again
 		{
 			final String expected = "newer";
 			final boolean actual = keyspace.set(key, expected);
 			Assert.assertTrue(actual);
-			Assert.assertEquals(keyspace.get(key).get().getValue(), expected);
+			Assert.assertEquals(keyspace.get(key).get(), expected);
 		}
 	}
 
@@ -182,7 +209,7 @@ public abstract class BaseKeyspaceTest {
 		final String value = "woot";
 		final boolean actual = keyspace.set(key, value);
 		Assert.assertTrue(actual);
-		Assert.assertEquals(keyspace.get(key).get().getValue(), value);
+		Assert.assertEquals(keyspace.get(key).get(), value);
 	}
 
 	@Test
@@ -191,7 +218,7 @@ public abstract class BaseKeyspaceTest {
 		final String value = "some value";
 		final boolean actual = keyspace.add(key, value);
 		Assert.assertTrue(actual);
-		Assert.assertEquals(keyspace.get(key).get().getValue(), value);
+		Assert.assertEquals(keyspace.get(key).get(), value);
 	}
 
 	@Test
@@ -211,7 +238,7 @@ public abstract class BaseKeyspaceTest {
 		keyspace.add(key, "blah");
 		final String value = "something else";
 		Assert.assertTrue(keyspace.replace(key, value));
-		Assert.assertEquals(keyspace.get(key).get().getValue(), value);
+		Assert.assertEquals(keyspace.get(key).get(), value);
 	}
 
 	@Test(dataProvider = "shouldNotBeAbleToAddNullsData", expectedExceptions = NullPointerException.class)
@@ -248,10 +275,16 @@ public abstract class BaseKeyspaceTest {
 	public void shouldNotBeAbleToCheckNullKeyExists() {
 		Assert.assertFalse(keyspace.exists(null));
 	}
-
+	
 	@Test(expectedExceptions = NullPointerException.class)
 	public void shouldNotBeAbleToGetNullKey() {
 		keyspace.get(null);
+		Assert.fail("Should have thrown exception!");
+	}
+
+	@Test(expectedExceptions = NullPointerException.class)
+	public void shouldNotBeAbleToGetsNullKey() {
+		keyspace.gets(null);
 		Assert.fail("Should have thrown exception!");
 	}
 

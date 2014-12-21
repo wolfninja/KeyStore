@@ -53,7 +53,29 @@ public interface Keyspace {
 	public boolean delete(@Nonnull final String key);
 
 	/**
+	 * Check if key exists
+	 * 
+	 * @param key
+	 *            String key, not null
+	 * @return true if key exists, false otherwise
+	 * @since 1.0
+	 */
+	@Nonnull
+	public boolean exists(@Nonnull final String key);
+
+	/**
 	 * Get value for a key
+	 * 
+	 * @param key
+	 *            String key, not null
+	 * @return {@link String} value wrapped in {@link Optional}. {@link Optional#absent()} if no value for key.
+	 * @since 1.0
+	 */
+	@Nonnull
+	public Optional<String> get(@Nonnull final String key);
+
+	/**
+	 * Get value for a key with version info
 	 * 
 	 * @param key
 	 *            String key, not null
@@ -61,18 +83,8 @@ public interface Keyspace {
 	 * @since 1.0
 	 */
 	@Nonnull
-	public Optional<KeyValue> get(@Nonnull final String key);
+	public Optional<KeyValue> gets(@Nonnull final String key);
 
-	/**
-	 * Check if key exists
-	 * 
-	 * @param key String key, not null
-	 * @return true if key exists, false otherwise
-	 * @since 1.0
-	 */
-	@Nonnull
-	public boolean exists(@Nonnull final String key);
-	
 	/**
 	 * Replace value("Store data only if key exists already")
 	 * <p>
