@@ -17,13 +17,15 @@ def isCiBuild
 def isReleaseBuild
 
 dependencies {
-	compile 'com.google.guava:guava:18.0'
 	compile 'com.google.code.findbugs:jsr305:3.0.0'
 	testCompile 'org.testng:testng:6.8.8'
 	testCompile 'org.easymock:easymock:3.3'
 	testCompile 'org.powermock:powermock-module-testng:1.6.0'
 	testCompile 'org.powermock:powermock-api-easymock:1.6.0'
 }
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
 	classifier = 'javadoc'

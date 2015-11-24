@@ -1,8 +1,8 @@
 package com.wolfninja.keystore.api;
 
-import javax.annotation.Nonnull;
+import java.util.Objects;
 
-import com.google.common.base.Preconditions;
+import javax.annotation.Nonnull;
 
 /**
  * @since 1.0
@@ -19,14 +19,14 @@ public class KeyValueStore {
 	 */
 	@Nonnull
 	public static KeyValueStore create(@Nonnull final KeyValueStoreAdapter adapter) {
-		Preconditions.checkNotNull("Adapter must not be null");
+		Objects.requireNonNull("Adapter must not be null");
 		return new KeyValueStore(adapter);
 	}
 
 	private final KeyValueStoreAdapter adapter;
 
 	private KeyValueStore(@Nonnull final KeyValueStoreAdapter adapter) {
-		Preconditions.checkNotNull(adapter, "Adapter must not be null");
+		Objects.requireNonNull(adapter, "Adapter must not be null");
 		this.adapter = adapter;
 	}
 
@@ -40,7 +40,7 @@ public class KeyValueStore {
 	 */
 	@Nonnull
 	public Keyspace getKeyspace(@Nonnull final String keyspaceName) {
-		Preconditions.checkNotNull(keyspaceName, "Keyspace name must not be null");
+		Objects.requireNonNull(keyspaceName, "Keyspace name must not be null");
 		return adapter.getKeyspace(keyspaceName);
 	}
 }

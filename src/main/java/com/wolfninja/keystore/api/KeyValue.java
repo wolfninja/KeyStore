@@ -1,10 +1,9 @@
 package com.wolfninja.keystore.api;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
-
-import com.google.common.base.Preconditions;
 
 /**
  * @since 1.0
@@ -26,9 +25,9 @@ public class KeyValue implements Serializable {
 	 */
 	@Nonnull
 	public static KeyValue create(@Nonnull final String key, @Nonnull final String value, @Nonnull final long version) {
-		Preconditions.checkNotNull(key, "Key must not be null");
-		Preconditions.checkNotNull(value, "Value must not be null");
-		Preconditions.checkNotNull(version, "Version must not be null");
+		Objects.requireNonNull(key, "Key must not be null");
+		Objects.requireNonNull(value, "Value must not be null");
+		Objects.requireNonNull(version, "Version must not be null");
 		return new KeyValue(key, value, version);
 	}
 
@@ -48,9 +47,9 @@ public class KeyValue implements Serializable {
 	 * @since 1.0
 	 */
 	protected KeyValue(final String key, final String value, final long version) {
-		Preconditions.checkNotNull(key, "Key must not be null");
-		Preconditions.checkNotNull(value, "Value must not be null");
-		Preconditions.checkNotNull(version, "Version must not be null");
+		Objects.requireNonNull(key, "Key must not be null");
+		Objects.requireNonNull(value, "Value must not be null");
+		Objects.requireNonNull(version, "Version must not be null");
 
 		this.key = key;
 		this.value = value;

@@ -1,12 +1,11 @@
 package com.wolfninja.keystore.api;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import com.google.common.base.Optional;
 
 @Test
 public abstract class BaseKeyspaceTest {
@@ -297,7 +296,7 @@ public abstract class BaseKeyspaceTest {
 	@DataProvider
 	public Object[][] shouldNotBeAbleToAddNullsData() {
 		return new Object[][] { //
-		{ genRandKey(), null }, //
+				{ genRandKey(), null }, //
 				{ null, "something else" }, //
 				{ null, null } //
 		};
@@ -312,7 +311,7 @@ public abstract class BaseKeyspaceTest {
 	@DataProvider
 	protected Object[][] shouldNotBeAbleToCheckAndSetWithNullsData() {
 		return new Object[][] { //
-		{ null, "something" }, //
+				{ null, "something" }, //
 				{ genRandKey(), null }, //
 				{ null, null }, //
 		};
@@ -361,7 +360,7 @@ public abstract class BaseKeyspaceTest {
 	@DataProvider
 	protected Object[][] shouldNotBeAbleToReplaceWithNullsData() {
 		return new Object[][] { //
-		{ null, "something" }, //
+				{ null, "something" }, //
 				{ genRandKey(), null }, //
 				{ null, null }, //
 		};
@@ -376,7 +375,7 @@ public abstract class BaseKeyspaceTest {
 	@DataProvider
 	protected Object[][] shouldNotBeAbleToSetWithNullsData() {
 		return new Object[][] { //
-		{ null, "something" }, //
+				{ null, "something" }, //
 				{ genRandKey(), null }, //
 				{ null, null }, //
 		};

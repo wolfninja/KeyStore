@@ -1,8 +1,8 @@
 package com.wolfninja.keystore.api;
 
-import javax.annotation.Nonnull;
+import java.util.Optional;
 
-import com.google.common.base.Optional;
+import javax.annotation.Nonnull;
 
 /**
  * @since 1.0
@@ -81,7 +81,7 @@ public interface Keyspace {
 	 * 
 	 * @param key
 	 *            String key, not null
-	 * @return {@link String} value wrapped in {@link Optional}. {@link Optional#absent()} if no value for key.
+	 * @return {@link String} value wrapped in {@link Optional}. {@link Optional#empty()} if no value for key.
 	 * @since 1.0
 	 */
 	@Nonnull
@@ -92,7 +92,7 @@ public interface Keyspace {
 	 * 
 	 * @param key
 	 *            String key, not null
-	 * @return {@link KeyValue} value wrapped in {@link Optional}. {@link Optional#absent()} if no value for key.
+	 * @return {@link KeyValue} value wrapped in {@link Optional}. {@link Optional#empty()} if no value for key.
 	 * @since 1.0
 	 */
 	@Nonnull
@@ -123,6 +123,7 @@ public interface Keyspace {
 	 * @param value
 	 *            String value, not null
 	 * @return true if value set, false otherwise
+	 * @since 1.0
 	 */
 	@Nonnull
 	public boolean set(@Nonnull final String key, @Nonnull final String value);
