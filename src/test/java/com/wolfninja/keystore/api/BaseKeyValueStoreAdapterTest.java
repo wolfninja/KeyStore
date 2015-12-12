@@ -3,6 +3,7 @@ package com.wolfninja.keystore.api;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("javadoc")
 @Test
 public abstract class BaseKeyValueStoreAdapterTest {
 

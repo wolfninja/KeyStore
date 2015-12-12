@@ -2,9 +2,12 @@ package com.wolfninja.keystore.api;
 
 import javax.annotation.Nonnull;
 
+import aQute.bnd.annotation.ProviderType;
+
 /**
  * @since 1.0
  */
+@ProviderType
 public interface KeyValueStoreAdapter {
 
 	/**

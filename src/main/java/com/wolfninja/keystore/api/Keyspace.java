@@ -4,10 +4,13 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import aQute.bnd.annotation.ProviderType;
+
 /**
  * @since 1.0
  *
  */
+@ProviderType
 public interface Keyspace {
 	/**
 	 * Add value("Store data only if key does NOT exist")
@@ -127,4 +130,5 @@ public interface Keyspace {
 	 */
 	@Nonnull
 	public boolean set(@Nonnull final String key, @Nonnull final String value);
+
 }

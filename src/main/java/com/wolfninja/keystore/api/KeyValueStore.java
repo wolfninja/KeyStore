@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 /**
  * @since 1.0
  */
-public class KeyValueStore {
+public final class KeyValueStore {
 
 	/**
 	 * Create a new instance of {@code KeyValueStore} for the given {@code KeyValueStoreAdapter}

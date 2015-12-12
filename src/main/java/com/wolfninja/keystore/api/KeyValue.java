@@ -5,9 +5,12 @@ import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
+import aQute.bnd.annotation.ProviderType;
+
 /**
  * @since 1.0
  */
+@ProviderType
 public class KeyValue implements Serializable {
 	private static final long serialVersionUID = 1L;
 

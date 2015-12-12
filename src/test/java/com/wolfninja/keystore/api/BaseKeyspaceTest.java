@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("javadoc")
 @Test
 public abstract class BaseKeyspaceTest {
 
