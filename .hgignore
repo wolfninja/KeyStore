@@ -2,6 +2,8 @@ syntax:regexp
 
 ^.project$
 
+\.git\/
+\.gitignore$
 \.gradle\/
 \.classpath$
 \.project$
