@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import aQute.bnd.annotation.ProviderType;
 
 /**
- * @since 1.0
+ * @since 0.1
  */
 @ProviderType
 public interface KeyValueStoreAdapter {
@@ -16,7 +16,7 @@ public interface KeyValueStoreAdapter {
 	 * @param keyspaceName
 	 *            String keyspace name, not null
 	 * @return {@link Keyspace} instance for the given namespace, not null
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	Keyspace getKeyspace(@Nonnull String keyspaceName);

@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import aQute.bnd.annotation.ProviderType;
 
 /**
- * @since 1.0
+ * @since 0.1
  *
  */
 @ProviderType
@@ -22,7 +22,7 @@ public interface Keyspace {
 	 * @param value
 	 *            String value, not null
 	 * @return true if value added, false otherwise
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public boolean add(@Nonnull final String key, @Nonnull final String value);
@@ -39,7 +39,7 @@ public interface Keyspace {
 	 * @param version
 	 *            long version of value
 	 * @return true if value added, false otherwise
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public boolean checkAndSet(@Nonnull final String key, @Nonnull final String value, final long version);
@@ -50,7 +50,7 @@ public interface Keyspace {
 	 * @param key
 	 *            String key, not null
 	 * @return true if key deleted, false otherwise
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public boolean delete(@Nonnull final String key);
@@ -63,7 +63,7 @@ public interface Keyspace {
 	 * @param version
 	 *            long version of value
 	 * @return true if key deleted, false otherwise
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public boolean deletes(@Nonnull final String key, final long version);
@@ -74,7 +74,7 @@ public interface Keyspace {
 	 * @param key
 	 *            String key, not null
 	 * @return true if key exists, false otherwise
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public boolean exists(@Nonnull final String key);
@@ -85,7 +85,7 @@ public interface Keyspace {
 	 * @param key
 	 *            String key, not null
 	 * @return {@link String} value wrapped in {@link Optional}. {@link Optional#empty()} if no value for key.
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public Optional<String> get(@Nonnull final String key);
@@ -96,7 +96,7 @@ public interface Keyspace {
 	 * @param key
 	 *            String key, not null
 	 * @return {@link KeyValue} value wrapped in {@link Optional}. {@link Optional#empty()} if no value for key.
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public Optional<KeyValue> gets(@Nonnull final String key);
@@ -111,7 +111,7 @@ public interface Keyspace {
 	 * @param value
 	 *            String value, not null
 	 * @return true if value replaced, false otherwise
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public boolean replace(@Nonnull final String key, @Nonnull final String value);
@@ -126,7 +126,7 @@ public interface Keyspace {
 	 * @param value
 	 *            String value, not null
 	 * @return true if value set, false otherwise
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public boolean set(@Nonnull final String key, @Nonnull final String value);

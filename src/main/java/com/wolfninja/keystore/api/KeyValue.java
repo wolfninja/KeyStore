@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import aQute.bnd.annotation.ProviderType;
 
 /**
- * @since 1.0
+ * @since 0.1
  */
 @ProviderType
 public class KeyValue implements Serializable {
@@ -24,7 +24,7 @@ public class KeyValue implements Serializable {
 	 * @param version
 	 *            long version, not null
 	 * @return new {@link KeyValue} instance
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	@Nonnull
 	public static KeyValue create(@Nonnull final String key, @Nonnull final String value, @Nonnull final long version) {
@@ -47,7 +47,7 @@ public class KeyValue implements Serializable {
 	 *            String value
 	 * @param version
 	 *            long version
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	protected KeyValue(final String key, final String value, final long version) {
 		Objects.requireNonNull(key, "Key must not be null");
@@ -63,7 +63,7 @@ public class KeyValue implements Serializable {
 	 * Get key
 	 * 
 	 * @return String key
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	public String getKey() {
 		return key;
@@ -73,7 +73,7 @@ public class KeyValue implements Serializable {
 	 * Get value
 	 * 
 	 * @return String value
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	public String getValue() {
 		return value;
@@ -83,7 +83,7 @@ public class KeyValue implements Serializable {
 	 * Get version
 	 * 
 	 * @return long version
-	 * @since 1.0
+	 * @since 0.1
 	 */
 	public long getVersion() {
 		return version;
