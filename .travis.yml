@@ -6,7 +6,7 @@ before_install:
   -out wolfninja_keystore.pubring.gpg -d
 - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in wolfninja_keystore.secring.gpg.enc
   -out wolfninja_keystore.secring.gpg -d
-- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in wolfninja_keystore.gradle.properties.enc
+- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in gradle.properties.enc
   -out gradle.properties -d
 script: gradle assemble sign
 env:
