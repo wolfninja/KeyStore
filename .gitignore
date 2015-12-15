@@ -3,6 +3,7 @@
 .classpath
 .project
 .orig
+*.swp
 .settings/
 /gradle.properties
 /*.pubring.gpg

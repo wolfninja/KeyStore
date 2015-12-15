@@ -26,6 +26,7 @@ def isDevBuild
 def isCiBuild
 def isReleaseBuild
 def isSign
+def sonatypeRepoUrl
 
 dependencies {
 	compile 'com.google.code.findbugs:jsr305:3.0.1'
@@ -68,10 +69,12 @@ artifacts {
 if(hasProperty("release")) {
 	isReleaseBuild = true
 	isSign = true
+	sonatypeRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
 } else if (hasProperty("ci")) {
 	isCiBuild = true
 	isSign = true
 	version += "-SNAPSHOT"
+	sonatypeRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
 } else {
 	isDevBuild = true
 	version += "-SNAPSHOT"
@@ -91,6 +94,44 @@ uploadArchives {
 	repositories {
 		if(isDevBuild) {
 			mavenLocal()
+		} else {
+			mavenDeployer {
+				if(isSign) {
+					beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+				}
+
+				repository(url: sonatypeRepoUrl) {
+					authentication(userName: sonatypeUsername, password: sonatypePassword)
+				}
+
+				pom.project {
+					name 'KeyStore'
+					packaging 'jar'
+					description 'an abstraction library for key value stores'
+					url 'http://github.com/wolfninja/keystore'
+
+					scm {
+						url 'scm:git@github.com:wolfninja/KeyStore.git'
+						connection 'scm:git@github.com:wolfninja/KeyStore.git'
+						developerConnection 'scm:git@github.com:wolfninja/KeyStore.git'
+					}
+
+					licenses {
+						license {
+							name 'MIT License'
+							url 'http://opensource.org/licenses/MIT'
+							distribution 'repo'
+						}
+					}
+
+					developers {
+						developer {
+							id 'nickball'
+							name 'Nick Ball'
+						}
+					}
+				}
+			}
 		}
 	}
 }
