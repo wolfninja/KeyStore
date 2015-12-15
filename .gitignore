@@ -4,6 +4,9 @@
 .project
 .orig
 .settings/
+/gradle.properties
+/*.pubring.gpg
+/*.secring.gpg
 Main.java
 bin/
 build/

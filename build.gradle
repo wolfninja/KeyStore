@@ -25,6 +25,7 @@ repositories {
 def isDevBuild
 def isCiBuild
 def isReleaseBuild
+def isSign
 
 dependencies {
 	compile 'com.google.code.findbugs:jsr305:3.0.1'
@@ -66,12 +67,24 @@ artifacts {
 
 if(hasProperty("release")) {
 	isReleaseBuild = true
+	isSign = true
 } else if (hasProperty("ci")) {
 	isCiBuild = true
+	isSign = true
 	version += "-SNAPSHOT"
 } else {
 	isDevBuild = true
 	version += "-SNAPSHOT"
+}
+
+if(isSign) {
+	signing {
+		sign configurations.archives
+	}
+} else {
+	task signArchives {
+		//NOOP
+	}
 }
 
 uploadArchives {
