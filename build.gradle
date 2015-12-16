@@ -43,7 +43,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 task getVersion << {
-  println version
+	println version
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -62,6 +62,8 @@ task testsJar(type: Jar, dependsOn: testClasses) {
 }
 
 test.useTestNG()
+
+check.dependsOn jacocoTestReport
 
 artifacts {
 	archives jar
@@ -92,6 +94,13 @@ if(isSign) {
 } else {
 	task signArchives {
 		//NOOP
+	}
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true
+		html.enabled = true
 	}
 }
 
