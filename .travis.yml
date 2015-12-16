@@ -18,4 +18,5 @@ after_success:
 - .scripts/publish.sh
 cache:
   directories:
+  - $HOME/.gradle
   - $HOME/.m2
