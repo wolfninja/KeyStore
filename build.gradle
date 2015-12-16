@@ -8,6 +8,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'jacoco'
 apply plugin: 'biz.aQute.bnd.builder'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'maven'

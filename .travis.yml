@@ -16,3 +16,6 @@ script: gradle check javadoc
 after_success:
 - codecov
 - .scripts/publish.sh
+cache:
+  directories:
+  - $HOME/.m2
