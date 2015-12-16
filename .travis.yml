@@ -5,7 +5,7 @@ env:
   global:
     secure: h35kIdvglWAJEtPsSBYCapLTONHvIVUAPcmKggxdQookjXGvNiCjjuofiYvCpo3qDSjsv3EPw8Cza5i4i7BxYfnLte6yXrGo+0hP4m692tzCDZkqDa1p1M/hI2z+LRtsoIQUkH2y6fHeYsAjznvllDvF17CrQeC/hC+htKC+uep2VwwAskRdfhlT2dnQx7YWuEfS4Dq0CfEErK2x7xTSbmSYrx4Zme0q7UGPlYh364cfRsegQzZyE7clrQS+jklRjLEaKQoln7CU28BPPuNTmrrmIMoheXY5G/mXtLoL03HmuZ6QN4dXRtOHFdjGWR1dkj5ER5qVGN1mi7hH1UxqbEVQF0oCHdZL+GKvl7+vTpu4skRq38yF8h8blaMF2XqUc+Bl7EjXD46EX87Pb6THPQgs9E77kRxMSZETt1KlEKSRytIiiBnc2kUJ+KDfSKa44B4qrAQX6bdcuMEcSMajTY3BDMQ0SLoNBFJkzs6/fbZ14ZVzM3YqJEQj8GXfGDFWDfWMjY7bAJGna1KJ5N65TArQ8VpSZgIijb/+ikgbbYHdc8bHaBF7cOPmKhYnVb/RedvNsSrme1mxR893lU06OaQUbLefdBU77irsvh5A6PF5xWsB1wiqklQPzfAIZqL87LyxQwlAh4hRryjZs7MYRBD+DrVftuZQ2JiUYDxClY8=
 before_install:
-- pip install codecov
+- pip install --user codecov
 - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in wolfninja_keystore.pubring.gpg.enc
   -out wolfninja_keystore.pubring.gpg -d
 - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in wolfninja_keystore.secring.gpg.enc
