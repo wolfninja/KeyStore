@@ -4,6 +4,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+
 /**
  * Tests for {@code KeyValue}
  */
@@ -34,7 +37,7 @@ public class KeyValueTest {
 	@DataProvider
 	protected Object[][] createNotNullableData() {
 		return new Object[][] { //
-		{ null, "value", 1234L }, //
+				{ null, "value", 1234L }, //
 				{ "key", null, 1234L }, //
 				{ null, null, 0L } //
 		};
@@ -52,9 +55,15 @@ public class KeyValueTest {
 	 *            long version
 	 */
 	@Test(dataProvider = "createNotNullableData", expectedExceptions = NullPointerException.class)
-	public void createNotNullableTest(final String expectedKey, final String expectedValue, final long expectedVersion) {
+	public void createNotNullableTest(final String expectedKey, final String expectedValue,
+			final long expectedVersion) {
 		final KeyValue actual = KeyValue.create(expectedKey, expectedValue, expectedVersion);
 		Assert.fail("Expected exception! Value of actual: " + actual);
+	}
+
+	@Test
+	public void equalityContractTest() {
+		EqualsVerifier.forClass(KeyValue.class).suppress(Warning.STRICT_INHERITANCE).verify();
 	}
 
 	/**

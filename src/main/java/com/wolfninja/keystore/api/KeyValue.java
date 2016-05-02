@@ -59,6 +59,19 @@ public class KeyValue implements Serializable {
 		this.version = version;
 	}
 
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof KeyValue))
+			return false;
+		final KeyValue other = (KeyValue) obj;
+		return Objects.equals(key, other.key) && Objects.equals(value, other.value)
+				&& Objects.equals(version, other.version);
+	}
+
 	/**
 	 * Get key
 	 * 
@@ -87,6 +100,11 @@ public class KeyValue implements Serializable {
 	 */
 	public long getVersion() {
 		return version;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(key, value, version);
 	}
 
 }
